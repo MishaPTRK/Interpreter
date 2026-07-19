@@ -1,28 +1,15 @@
 ﻿
 #include <iostream>
 #include <vector>
-
-enum class TokenType {NUMBER,IDENT,VAR, DEF,PLUS, MINUS, STAR, SLASH, ASSIGN,
-    LPAREN, RPAREN, LBRACE, RBRACE,COMMA,END_OF_LINE};
-
-
-struct Token {
-    TokenType type;
-    std::string text; 
-    double numValue = 0;
-
-
-class Lexer {
-public:
-    int pos = 0;
-    std::vector<Token> tokens;
-    
-};
-
+#include <string>
 
 int main()
 {
+    Lexer lexer("var a = max(3, 2)");
+    std::vector<Token> tkns= lexer.tokenize();
+    for (Token& t : tkns) {
+        std::cout << t.text << std::endl;
+    }
+    return 0;
 
-    std::cout << "Hello World!\n";
 }
-
