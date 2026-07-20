@@ -139,7 +139,6 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ast_tree_components.cpp" />
     <ClCompile Include="Interpreter.cpp" />
   </ItemGroup>
   <ItemGroup>
