@@ -68,6 +68,45 @@ public:
     }
 };
 
+
+class Statement
+{
+public:
+    virtual ~Statement() = default;
+};
+using StatementPtr = std::shared_ptr<Statement>;
+
+
+
+class ExprStatement : public Statement
+{
+public:
+    ExprPtr expression;
+
+    ExprStatement(ExprPtr e)
+    {
+        expression = e;
+    }
+};
+
+
+class VarStatement : public Statement
+{
+public:
+    std::string name;
+    ExprPtr expression;
+
+    VarStatement(std::string n, ExprPtr e)
+    {
+        name = n;
+        expression = e;
+    }
+};
+
+
+
+
+
 class Parser
 {
 public:
@@ -78,7 +117,7 @@ public:
         pos = 0;
     }
 
-    ExprPtr parseExpr() 
+    ExprPtr parseExpr()
     {
         ExprPtr leftSide = parseTerm();
 
@@ -103,8 +142,30 @@ public:
         }
 
         return leftSide;
-    
-    }
+
+    };
+
+    StatementPtr parseStatement()
+    {
+        Token currentToken = Peak();
+
+        if (currentToken.type == TokenType::VAR)
+        {
+            advance();
+
+            Token nameToken = expect(TokenType::IDENT);
+            std::string variableName = nameToken.text;
+
+            expect(TokenType::ASSIGN);
+
+            ExprPtr valueExpr = parseExpr();
+
+            return std::make_shared<VarStatement>(variableName, valueExpr);
+        }
+        ExprPtr expr = parseExpr();
+        return std::make_shared<ExprStatement>(expr);
+    };
+
 
 
 private:

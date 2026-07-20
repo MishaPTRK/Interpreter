@@ -43,6 +43,9 @@ public:
 class Evaluator
 {
 public:
+
+
+
 	double eval(ExprPtr node, Environment& env)
 	{
 		if (auto asNumber = std::dynamic_pointer_cast<numberExpr>(node))
@@ -122,5 +125,26 @@ public:
 
 		throw "Newidomiy type";
 
+	}
+
+
+	bool execute(StatementPtr stmt, Environment& env, double& outResult)
+	{
+		auto asVarStmt = std::dynamic_pointer_cast<VarStatement>(stmt);
+		if (asVarStmt != nullptr)
+		{
+			double value = eval(asVarStmt->expression, env);
+			env.AddValue(asVarStmt->name, value);
+			return false;
+		}
+
+		auto asExprStmt = std::dynamic_pointer_cast<ExprStatement>(stmt);
+		if (asExprStmt != nullptr)
+		{
+			outResult = eval(asExprStmt->expression, env);
+			return true;
+		}
+
+		throw "Type newidomiy";
 	}
 };

@@ -2,14 +2,16 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Token.h"
+#include "Lexer.h"
+#include "Parser.h"
+#include "Environment.h'
 
 int main()
 {
-    Lexer lexer("var a = max(3, 2)");
-    std::vector<Token> tkns= lexer.tokenize();
-    for (Token& t : tkns) {
-        std::cout << t.text << std::endl;
-    }
+    Environment env;
+    Evaluator evaluator;
+
     return 0;
 
 }
