@@ -14,8 +14,10 @@ int main()
     std::string inputLine;
 
 
-    while (std::getline(std::cin, inputLine)) 
+    while (true) 
     {
+        std::getline(std::cin, inputLine);
+
         if (inputLine == "exit" || inputLine == "quit")
         {
             break;
